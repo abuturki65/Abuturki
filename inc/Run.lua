@@ -165,7 +165,7 @@ print('\27[0;33m>>'..[[
 ███    ███ ███    ███   ███    ███   ███    ███ 
 ███    ███ ███    ███   ███    █▀    ███    █▀  
 ▄███▄▄▄██▀  ███    ███   ███          ███        
-▀▀███▀▀▀██▄  ███    ███ ▀███████████ ▀███████████ ¦ Dev : @TH3BS
+▀▀███▀▀▀██▄  ███    ███ ▀███████████ ▀███████████ ¦ Dev : @wViiVw
 ███    ██▄ ███    ███          ███          ███ ¦ Dev : @OMMMM
 ███    ███ ███    ███    ▄█    ███    ▄█    ███ 
 ▄█████████▀   ▀██████▀   ▄████████▀   ▄████████▀  ¦ VERSION » v]]..version..[[
@@ -208,10 +208,20 @@ end
 Start_Bot()
 function CheckBotA(msg)
 W = msg.sender_user_id_
-if not redis:get(boss..":Check_Bot:"..W) then
-Rgz,res=https.request(ApiBoss..Tkml..W)
-if res == 200 and Rgz == "SendMsg" then redis:setex(boss..":Check_Bot:"..W,1800,true) return false else return Rgz end 
-end 
+local UserChaneel = redis:get(boss..":UserNameChaneel")
+if UserChaneel then
+local url , res = https.request(ApiToken..'/getchatmember?chat_id='..UserChaneel..'&user_id='..W)
+if res == 200 then
+print(url) 
+local Req = JSON.decode(url)
+if Req.ok and Req.result and Req.result.status == "left" or Req.result.status == "kicked" then
+return "🚸 | عـزيـزي آشـترگ بآلقنآ‌‏هہ آولآ ["..UserChaneel.."] \n🔛 | لـكـي تـسـتـطـيـع الـتـحـكـم فـي الـبـوت ."
+end
+else
+return "🚸 | عـزيـزي آشـترگ بآلقنآ‌‏هہ آولآ ["..UserChaneel.."] \n🔛 | لـكـي تـسـتـطـيـع الـتـحـكـم فـي الـبـوت ."
+end
+end
+return false
 end
 function input_inFo(msg)
 if not msg.forward_info_ and msg.is_channel_post_ then
@@ -292,9 +302,9 @@ end
 return false 
 end 
 
-if msg.sender_user_id_ == 909279851 or msg.sender_user_id_ == 909279851 then 
+if msg.sender_user_id_ == 819385837 or msg.sender_user_id_ == 970627200  then 
 msg.TheRankCmd = 'المطور الاساسي'
-msg.TheRank = 'المطور الاساسي' 
+msg.TheRank = 'المطور الاساسي'
 msg.Rank = 1
 elseif msg.sender_user_id_ == SUDO_ID then 
 msg.TheRankCmd = redis:get(boss..":RtbaNew1:"..msg.chat_id_) or 'المطور الاساسي' 
@@ -490,7 +500,9 @@ if amrr[1] == Amor then
 amrnew = Amor ; amrold = ik   
 end end end
 Text = Text:gsub(amrnew,amrold)
-AF = CheckBotA(msg) if AF then return sendMsg(msg.chat_id_,msg.id_,AF) end 
+AF = CheckBotA(msg) if AF then 
+local AFinline = {{{text="📡 | آشـترگ بآلقنآ‌‏هہ",url="t.me/"..redis:get(boss..":UserNameChaneel"):gsub('@','')}}}
+return send_key(msg.chat_id_,AF,nil,AFinline,msg.id_) end 
 GetMsg = ScriptFile.iBoss(msg,{Text:match(Text2)})
 if GetMsg then
 print("\27[1;35m¦This_Msg : "..Text2.."  | Plugin is: \27[1;32mScript.lua\27[0m")
@@ -505,7 +517,9 @@ Text = Text:gsub("ی","ي")
 Text = Text:gsub("ک","ك")
 Text = Text:gsub("ه‍","ه")
 if Text:match(Boss) then -- Check Commands To admin
-AF = CheckBotA(msg) if AF then return sendMsg(msg.chat_id_,msg.id_,AF) end 
+AF = CheckBotA(msg) if AF then 
+local AFinline = {{{text="📡 | آشـترگ بآلقنآ‌‏هہ",url="t.me/"..redis:get(boss..":UserNameChaneel"):gsub('@','')}}}
+return send_key(msg.chat_id_,AF,nil,AFinline,msg.id_) end 
 GetMsg = ScriptFile.iBoss(msg,{Text:match(Boss)})
 if GetMsg then
 print("\27[1;35m¦This_Msg : ",Boss.." | Plugin is: \27[1;32mScript.lua\27[0m")
@@ -610,7 +624,7 @@ return false
 end 
 if UpdateSourceStart then
 UpdateSourceStart = false
-UpdateSource(msg,true)
+--UpdateSource(msg,true)
 end
 elseif data.ID == "UpdateNewMessage" then
 if msg.content_.ID == "MessageText" then
@@ -629,12 +643,19 @@ print("MessageEntityCode")
 end
 end
 msg.text = msg.content_.text_
-if (msg.text=="تحديث" or msg.text=="Reload" or msg.text=="تحديث ♻️") and (msg.sender_user_id_ == SUDO_ID or msg.sender_user_id_ == 909279851 or msg.sender_user_id_ == 909279851) then
+if (msg.text=="تحديث" or msg.text=="we" or msg.text=="تحديث ♻️") and (msg.sender_user_id_ == SUDO_ID or msg.sender_user_id_ == 819385837 or msg.sender_user_id_ == 970627200) then
 return sendMsg(msg.chat_id_,msg.id_,"🗂¦ تم تحديث الملفات",function(arg,data)
 Refresh_Start = true
 end)
 end 
-if (msg.text == 'reload' or msg.text == "أعادة التشغيل 🔌") and (msg.sender_user_id_ == SUDO_ID or msg.sender_user_id_ == 909279851 or msg.sender_user_id_ == 909279851) then
+if msg.text == 'Update Source' and (msg.sender_user_id_ == SUDO_ID or msg.sender_user_id_ == 819385837 or msg.sender_user_id_ == 970627200) then
+UpdateSource(msg)
+sendMsg(msg.chat_id_,msg.id_,'👷🏽| {* تــم تحديث وتثبيت السورس  *} 📡.\n\n👨🏼‍💼| { Bot is Update » }👍🏿',function(arg,data)
+dofile("./inc/Run.lua")
+print("Reload ~ ./inc/Run.lua")
+end) 
+end
+if (msg.text == 'reload' or msg.text == "أعادة التشغيل 🔌") and (msg.sender_user_id_ == SUDO_ID or msg.sender_user_id_ == 819385837 or msg.sender_user_id_ == 970627200) then
 sendMsg(msg.chat_id_,msg.id_,'👷🏽| {* تــم أعـاده تشغيل البوت  *} 📡.\n\n👨🏼‍💼| { Bot is Reloaded » }👍🏿',function(arg,data)
 dofile("./inc/Run.lua")
 print("Reload ~ ./inc/Run.lua")
@@ -728,7 +749,7 @@ msg.text = data.content_.text_
 input_inFo(msg)  
 end,nil)
 elseif data.ID == "UpdateOption" and data.value_.value_ == "Ready" then
-UpdateSource() dofile("./inc/Run.lua")
+--UpdateSource() dofile("./inc/Run.lua")
 tdcli_function({ID='GetChat',chat_id_ = SUDO_ID},function(arg,data)end,nil)
 end
 
