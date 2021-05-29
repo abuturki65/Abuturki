@@ -3461,23 +3461,12 @@ end
 
 
 
-if msg.type == 'channel' and msg.GroupActive then
-
-if msg.SudoBase and (MsgText[1]=="م1" or MsgText[1]=="م2" or MsgText[1]=="م3" or MsgText[1]=="م المطور" or MsgText[1]=="اوامر الرد" or MsgText[1]=="الاوامر" or MsgText[1]=="اوامر الملفات") and redis:get(boss..":Witting_awamr_witting"..msg.chat_id_..msg.sender_user_id_) then 
-redis:del(boss..":Witting_awamr_witting"..msg.chat_id_..msg.sender_user_id_)
-redis:setex(boss..":changawmer:"..msg.chat_id_..msg.sender_user_id_,900,MsgText[1])
-sendMsg(msg.chat_id_,msg.id_,"🔖¦ حسننا لتعيين كليشة الـ *"..MsgText[1].."* \n📮¦ ارسل الكليشه الجديده الان \n\n علما يمكنك استخدام الاختصارات الاتي : \n \n{الاسم} : لوضع اسم المستخدم\n{الايدي} : لوضع ايدي المستخدم\n{المعرف} : لوضع معرف المستخدم \n{الرتبه} : لوضع نوع رتبه المستخدم \n{التفاعل} : لوضع تفاعل المستخدم \n{الرسائل} : لاضهار عدد الرسائل \n{النقاط} : لاضهار عدد النقاط \n{التعديل} : لاضهار عدد السحكات \n{البوت} : لاضهار اسم البوت\n{المطور} : لاضهار معرف المطور الاساسي\n➼")
+if text == 'الاوامر' and GetSourseMember(msg) then     
+if not Addictive(msg) then
+send(msg.chat_id_, msg.id_,'• عذرا الاوامر هذا لا المنشئين ') 
 return false
 end
-
-
-
-if MsgText[1] == "الاوامر" then
-if not msg.Admin then return "📪¦ هذا الامر يخص {الادمن,المدير,المنشئ,المطور} فقط  \n" end
-SUDO_USER = redis:hgetall(boss..'username:'..SUDO_ID).username
-text = [[☑️ اهلا بك في اوامر البوت 👇
-
-
+local Text =[[
 ❂
 
  قامهہ‏ الاوامر ‏ ⇊
@@ -3491,27 +3480,62 @@ text = [[☑️ اهلا بك في اوامر البوت 👇
 
 ➖➖➖➖➖➖➖
 🗯┇ راسلني للاستفسار 💡↭ @PROTECTmnbot
-🇸🇦
-]] 
-GetUserID(msg.sender_user_id_,function(arg,data)
-msg = arg.msg
-local textD = redis:get(boss..":awamer_Klesha_m:")
-if textD then
-textD = Flter_Markdown(convert_Klmat(msg,data,textD,true))
-else
-textD = text
-end
-sendMsg(msg.chat_id_,msg.id_,textD)
-end,{msg=msg})
+]]
+keyboard = {} 
+keyboard.inline_keyboard = {
+{{text = 'اوامر الرفع والتنزيل', callback_data="/help1"},{text = 'اوامر الوضع', callback_data="/help2"},
+{text = '3', callback_data="/help3"}},{{text = '4', callback_data="/help4"},
+{text = '5', callback_data="/help5"}},{{text = 'اوامر التسليه', callback_data="/help10"}},
+}
+local msg_id = msg.id_/2097152/0.6
+https.request("https://api.telegram.org/bot"..token..'/sendMessage?chat_id=' .. msg.chat_id_ .. '&text=' .. URL.escape(Text).."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard))
 return false
 end
 
-if MsgText[1]== 'م1' then
-if not msg.Admin then return "📪¦ هذا الامر يخص {الادمن,المدير,المنشئ,المطور} فقط  \n" end
+local text ' اهلا بك في اوامر البوت'
+
+local keyboard = {
+{"الاحصائيات 📈"},
+{"ضع اسم للبوت ©","ضع صوره للترحيب 🌄"},
+{"تعطيل التواصل ✖️","تفعيل التواصل 🔛"},
+{"تعطيل تعيين الايدي ⚔️","تفعيل تعيين الايدي ⌨️"},
+
+{"تعطيل البوت خدمي 🚫","تفعيل البوت خدمي 🔃"},
+{"مسح كليشه الستارت 🗑","تعيين كليشه الستارت 📱"},
+{"مسح كليشه الايدي عام 🗑","تعيين كليشه الايدي عام 📄"},
+
+{"اذاعه بالتثبيت 📬","تعطيل الاذاعه 🔌","تفعيل الاذاعه 📇"},
+{"اذاعه 🗣","اذاعه عام 📢","اذاعه خاص 👤"},
+{"الملفات 🗂","اذاعه عام بالتوجيه 📣"},
+{"تحديث ♻️","قائمه العام 📜"},
+{"المطورين 🕹","ايدي 🆔"},
+{"اضف رد عام ➕","الردود العامه 🗨"},
+{"الغاء الامر ✖️"}}
+return send_key(msg.sender_user_id_,text,keyboard,nil,msg.id_)
+else
+redis:sadd(boss..'users',msg.sender_user_id_)
 SUDO_USER = redis:hgetall(boss..'username:'..SUDO_ID).username
-local text = [[☑️ اهلا بك في قائمة اوامر الاداريين
-
-
+if SUDO_USER:match('@[%a%d_]+') then 
+SUDO_USERR = "⚖️¦ مـعرف آلمـطـور  : "..SUDO_USER
+else
+SUDO_USERR = ""
+end
+if text == 'م1' then
+if not msg.Admin then
+send(msg.chat_id_, msg.id_,'⚠️| هاذا الامر خاص بالادمنيه\n🔖') 
+return false
+end
+if AddChannel(msg.sender_user_id_) == false then
+local textchuser = database:get(bot_id..'text:ch:user')
+if textchuser then
+send(msg.chat_id_, msg.id_,'['..textchuser..']')
+else
+send(msg.chat_id_, msg.id_,'🔖| لا تستطيع استخدام البوت يرجى الاشتراك في القناة حتى تتمكن من استخدام الاوامر \n 📌| اشترك هنا ['..database:get(bot_id..'add:ch:username')..']')
+end
+return false
+end
+local help_text = database:get(bot_id..'help2_text')
+Text = [[
 •⊱ {  أوامر الرفع والتنزيل  } ⊰•
 
 
@@ -3544,7 +3568,10 @@ local text = [[☑️ اهلا بك في قائمة اوامر الاداريي�
 
 🗯┇ راسلني للاستفسار 💡↭ @PROTECTmnbot
  🇸🇦 
-]] 
+]]
+send(msg.chat_id_, msg.id_,(help_text or Text)) 
+return false
+end
 
 GetUserID(msg.sender_user_id_,function(arg,data)
 msg = arg.msg
@@ -3558,14 +3585,22 @@ sendMsg(msg.chat_id_,msg.id_,textD)
 end,{msg=msg})
 return false
 end
-
-
-if MsgText[1]== 'م2' then
-if not msg.Admin then return "📪¦ هذا الامر يخص {الادمن,المدير,المنشئ,المطور} فقط  \n" end
-SUDO_USER = redis:hgetall(boss..'username:'..SUDO_ID).username
-
-local text = [[☑️ اهلا بك في قائمة اوامر المجموعه
-
+if text == 'م2' then
+if not msg.Admin then
+send(msg.chat_id_, msg.id_,'⚠️| هاذا الامر خاص بالادمنيه\n🔖') 
+return false
+end
+if AddChannel(msg.sender_user_id_) == false then
+local textchuser = database:get(bot_id..'text:ch:user')
+if textchuser then
+send(msg.chat_id_, msg.id_,'['..textchuser..']')
+else
+send(msg.chat_id_, msg.id_,'🔖| لا تستطيع استخدام البوت يرجى الاشتراك في القناة حتى تتمكن من استخدام الاوامر \n 📌| اشترك هنا ['..database:get(bot_id..'add:ch:username')..']')
+end
+return false
+end
+local help_text = database:get(bot_id..'help2_text')
+Text = [[
 👨🏽‍✈️¦  اوامر الوضع للمجموعه ::
 
 📮¦ـ➖➖➖➖➖
@@ -3593,6 +3628,9 @@ local text = [[☑️ اهلا بك في قائمة اوامر المجموعه
 🗯┇ راسلني للاستفسار 💡↭ @PROTECTmnbot
  🇸🇦 
 ]] 
+send(msg.chat_id_, msg.id_,(help_text or Text)) 
+return false
+end
 
 GetUserID(msg.sender_user_id_,function(arg,data)
 msg = arg.msg
@@ -3606,13 +3644,22 @@ sendMsg(msg.chat_id_,msg.id_,textD)
 end,{msg=msg})
 return false
 end
-
-if MsgText[1]== 'م3' then
-if not msg.Admin then return "📪¦ هذا الامر يخص {الادمن,المدير,المنشئ,المطور} فقط  \n" end
-SUDO_USER = redis:hgetall(boss..'username:'..SUDO_ID).username
-
-local text = [[ ☑️ اهلا بك في قائمة الحماية
-
+if text == 'م3' then
+if not msg.Admin then
+send(msg.chat_id_, msg.id_,'⚠️| هاذا الامر خاص بالادمنيه\n' ) 
+return false
+end
+if AddChannel(msg.sender_user_id_) == false then
+local textchuser = database:get(bot_id..'text:ch:user')
+if textchuser then
+send(msg.chat_id_, msg.id_,'['..textchuser..']')
+else
+send(msg.chat_id_, msg.id_,'🔖| لا تستطيع استخدام البوت يرجى الاشتراك في القناة حتى تتمكن من استخدام الاوامر \n 📌| اشترك هنا ['..database:get(bot_id..'add:ch:username')..']')
+end
+return false
+end
+local help_text = database:get(bot_id..'help3_text')
+Text = [[
 ⚡️ اوامر حماية المجموعه ⚡️
 🗯¦ـ➖➖➖➖
 🗯¦ قفل «» فتح •⊱ التعديل  ⊰•
@@ -3653,6 +3700,9 @@ local text = [[ ☑️ اهلا بك في قائمة الحماية
 👨🏻‍💻¦ للاستفسار 💡↭ @PROTECTmnbot
  🇸🇦 
 ]]
+send(msg.chat_id_, msg.id_,(help_text or Text)) 
+return false
+end
 
 
 GetUserID(msg.sender_user_id_,function(arg,data)
@@ -3667,13 +3717,20 @@ sendMsg(msg.chat_id_,msg.id_,textD)
 end,{msg=msg})
 return false
 end
-
-if MsgText[1]== "م المطور" then
-if not msg.SudoBase then return "🔅¦ للمطور الاساسي فقط  🎖" end
-SUDO_USER = redis:hgetall(boss..'username:'..SUDO_ID).username
-
-local text = [[ ☑️ اهلا بك في قائمة اوامر المطورين
-
+if text == 'م المطور' then
+if not msg.SudoBase then
+send(msg.chat_id_, msg.id_,'⚠️ هاذا الامر خاص بالمطور الاساسي\n') 
+return false
+end
+if AddChannel(msg.sender_user_id_) == false then
+local textchuser = database:get(bot_id..'text:ch:user')
+if textchuser then
+send(msg.chat_id_, msg.id_,'['..textchuser..']')
+end
+return false
+end
+local help_text = database:get(bot_id..'help4_text')
+Text = [[
 • تفعيل
 • تعطيل
 • اسم بوتك + غادر
@@ -3696,7 +3753,9 @@ local text = [[ ☑️ اهلا بك في قائمة اوامر المطورين
 • مسح ايدي عام
 • تفعيل / تعطيل تعيين الايدي
 • تحديث]]
-
+send(msg.chat_id_, msg.id_,(help_text or Text)) 
+return false
+end
 
 GetUserID(msg.sender_user_id_,function(arg,data)
 msg = arg.msg
@@ -3711,14 +3770,22 @@ end,{msg=msg})
 return false
 end
 
-if MsgText[1]== 'اوامر الرد' then
-if not msg.Director then return "📪¦ هذا الامر يخص {المطور,المنشئ,المدير} فقط  \n" end
-SUDO_USER = redis:hgetall(boss..'username:'..SUDO_ID).username
-
-
-local text = [[ ☑️ اهلا بك في قائمة اوامر الردود
-
-
+if text == 'اوامر الرد' then
+if not msg.Admin then then
+send(msg.chat_id_, msg.id_,'⚠️| هاذا الامر خاص بالادمن\n🔖') 
+return false
+end
+if AddChannel(msg.sender_user_id_) == false then
+local textchuser = database:get(bot_id..'text:ch:user')
+if textchuser then
+send(msg.chat_id_, msg.id_,'['..textchuser..']')
+else
+send(msg.chat_id_, msg.id_,'🔖| لا تستطيع استخدام البوت يرجى الاشتراك في القناة حتى تتمكن من استخدام الاوامر \n 📌| اشترك هنا ['..database:get(bot_id..'add:ch:username')..']')
+end
+return false
+end
+local help_text = database:get(bot_id..'help5_text')
+Text = [[
 🗯¦ اوامر الردود للمدير والمنشئ ⇊
 🔅¦ـ➖➖➖➖➖
 🔅¦ الردود : لعرض الردود المثبته
@@ -3734,7 +3801,10 @@ local text = [[ ☑️ اهلا بك في قائمة اوامر الردود
 🔅¦ـ➖➖➖➖➖
 🗯¦ راسلني للاستفسار 💡↭ @PROTECTmnbot
  🇸🇦 
-]] 
+]]
+send(msg.chat_id_, msg.id_,(help_text or Text)) 
+return false
+end
 
 GetUserID(msg.sender_user_id_,function(arg,data)
 msg = arg.msg
