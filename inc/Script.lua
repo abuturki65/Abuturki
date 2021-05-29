@@ -3483,9 +3483,9 @@ local Text =[[
 ]]
 keyboard = {} 
 keyboard.inline_keyboard = {
-{{text = 'اوامر الرفع والتنزيل', callback_data="/help1"},{text = 'اوامر الوضع', callback_data="/help2"},
-{text = '3', callback_data="/help3"}},{{text = '4', callback_data="/help4"},
-{text = '5', callback_data="/help5"}},{{text = 'اوامر التسليه', callback_data="/help10"}},
+{{text = 'اوامر الاداره', callback_data="/help1"},{text = 'اوامر الاعدادات', callback_data="/help2"},
+{text = 'اوامر الحمايه', callback_data="/help3"}},{{text = 'اوامر الردود', callback_data="/help4"},
+{{text = 'اوامر المطور', callback_data="/help5"}},
 }
 local msg_id = msg.id_/2097152/0.6
 https.request("https://api.telegram.org/bot"..token..'/sendMessage?chat_id=' .. msg.chat_id_ .. '&text=' .. URL.escape(Text).."&reply_to_message_id="..msg_id.."&parse_mode=markdown&disable_web_page_preview=true&reply_markup="..JSON.encode(keyboard))
@@ -3534,7 +3534,7 @@ send(msg.chat_id_, msg.id_,'🔖| لا تستطيع استخدام البوت ي
 end
 return false
 end
-local help_text = database:get(bot_id..'help2_text')
+local help_text = database:get(bot_id..'help1_text')
 Text = [[
 •⊱ {  أوامر الرفع والتنزيل  } ⊰•
 
@@ -3729,7 +3729,7 @@ send(msg.chat_id_, msg.id_,'['..textchuser..']')
 end
 return false
 end
-local help_text = database:get(bot_id..'help4_text')
+local help_text = database:get(bot_id..'help5_text')
 Text = [[
 • تفعيل
 • تعطيل
@@ -3784,7 +3784,7 @@ send(msg.chat_id_, msg.id_,'🔖| لا تستطيع استخدام البوت ي
 end
 return false
 end
-local help_text = database:get(bot_id..'help5_text')
+local help_text = database:get(bot_id..'help4_text')
 Text = [[
 🗯¦ اوامر الردود للمدير والمنشئ ⇊
 🔅¦ـ➖➖➖➖➖
