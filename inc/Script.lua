@@ -1347,6 +1347,7 @@ if MsgText[1] == "قفل الموقع"	 	then return mute_location(msg) end
 if MsgText[1] == "قفل الملفات" 		then return mute_document(msg) end
 if MsgText[1] == "قفل الاشعارات" 	then return mute_tgservice(msg) end
 if MsgText[1] == "قفل الانلاين" 		then return mute_inline(msg) end
+if MsgText[1] == "قفل الالعاب" 		then return mute_game(msg) end
 if MsgText[1] == "قفل الكيبورد" 	then return mute_keyboard(msg) end
 if MsgText[1] == "قفل الروابط" 		then return lock_link(msg) end
 if MsgText[1] == "قفل التاك" 		then return lock_tag(msg) end
@@ -1386,6 +1387,7 @@ if MsgText[1] == "فتح الموقع" 		then return unmute_location(msg) end
 if MsgText[1] == "فتح الملفات" 		then return unmute_document(msg) end
 if MsgText[1] == "فتح الاشعارات" 	then return unmute_tgservice(msg) end
 if MsgText[1] == "فتح الانلاين" 		then return unmute_inline(msg) 	end
+if MsgText[1] == "فتح الالعاب" 		then return unmute_game(msg) 	end
 if MsgText[1] == "فتح الكيبورد" 	then return unmute_keyboard(msg) end
 if MsgText[1] == "فتح الروابط" 		then return unlock_link(msg) 	end
 if MsgText[1] == "فتح التاك" 		then return unlock_tag(msg) 	end
@@ -3490,7 +3492,7 @@ text = [[☑️ اهلا بك في اوامر البوت 👇
 📁¦ اوامر الملفات » لآدآرهہ‌‏ مــلفآت آلبوت
 
 ➖➖➖➖➖➖➖
-🗯┇ راسلني للاستفسار 💡↭ @PROTECTmnbot
+🗯┇ راسلني للاستفسار 💡↭ @s5v5v
 🇸🇦
 ]] 
 GetUserID(msg.sender_user_id_,function(arg,data)
@@ -3505,38 +3507,6 @@ sendMsg(msg.chat_id_,msg.id_,textD)
 end,{msg=msg})
 return false
 end
-if msg.text=="المالك" then
-
-if msg.owners then
-local text ' اهلا بك في اوامر البوت'
-
-local keyboard = {
-{"الاحصائيات 📈"},
-{"ضع اسم للبوت ©","ضع صوره للترحيب 🌄"},
-{"تعطيل التواصل ✖️","تفعيل التواصل 🔛"},
-{"تعطيل تعيين الايدي ⚔️","تفعيل تعيين الايدي ⌨️"},
-
-{"تعطيل البوت خدمي 🚫","تفعيل البوت خدمي 🔃"},
-{"مسح كليشه الستارت 🗑","تعيين كليشه الستارت 📱"},
-{"مسح كليشه الايدي عام 🗑","تعيين كليشه الايدي عام 📄"},
-
-{"اذاعه بالتثبيت 📬","تعطيل الاذاعه 🔌","تفعيل الاذاعه 📇"},
-{"اذاعه 🗣","اذاعه عام 📢","اذاعه خاص 👤"},
-{"الملفات 🗂","اذاعه عام بالتوجيه 📣"},
-{"تحديث ♻️","قائمه العام 📜"},
-{"المطورين 🕹","ايدي 🆔"},
-{"اضف رد عام ➕","الردود العامه 🗨"},
-{"الغاء الامر ✖️"}}
-return send_key(msg.sender_user_id_,text,keyboard,nil,msg.id_)
-else
-redis:sadd(boss..'users',msg.sender_user_id_)
-SUDO_USER = redis:hgetall(boss..'username:'..SUDO_ID).username
-if SUDO_USER:match('@[%a%d_]+') then 
-SUDO_USERR = "⚖️¦ مـعرف آلمـطـور  : "..SUDO_USER
-else
-SUDO_USERR = ""
-end
-
 
 if MsgText[1]== 'م1' then
 if not msg.Admin then return "📪¦ هذا الامر يخص {الادمن,المدير,المنشئ,المطور} فقط  \n" end
@@ -3574,7 +3544,7 @@ local text = [[☑️ اهلا بك في قائمة اوامر الاداريي�
 📛¦ طرد المحذوفين : لطرد الحسابات المحذوفه
 📟¦ كشف البوتات : لاظهار عدد البوتات الموجوده
 
-🗯┇ راسلني للاستفسار 💡↭ @PROTECTmnbot
+🗯┇ راسلني للاستفسار 💡↭ @s5v5v
  🇸🇦 
 ]] 
 
@@ -3622,7 +3592,7 @@ local text = [[☑️ اهلا بك في قائمة اوامر المجموعه
 🗯¦ المجموعه : لعرض معلومات المجموعه 
 
 ➖➖➖➖➖➖➖
-🗯┇ راسلني للاستفسار 💡↭ @PROTECTmnbot
+🗯┇ راسلني للاستفسار 💡↭ @s5v5v
  🇸🇦 
 ]] 
 
@@ -3682,7 +3652,7 @@ local text = [[ ☑️ اهلا بك في قائمة الحماية
 🗨¦ تفعيل «» تعطيل •⊱  الايدي ⊰•
 🔅¦ـ➖➖➖➖➖
 
-👨🏻‍💻¦ للاستفسار 💡↭ @PROTECTmnbot
+👨🏻‍💻¦ للاستفسار 💡↭ @s5v5v
  🇸🇦 
 ]]
 
@@ -3764,7 +3734,7 @@ local text = [[ ☑️ اهلا بك في قائمة اوامر الردود
 🔅¦ مسح رد عام  
 🔅¦ مسح الردود العامه 
 🔅¦ـ➖➖➖➖➖
-🗯¦ راسلني للاستفسار 💡↭ @PROTECTmnbot
+🗯¦ راسلني للاستفسار 💡↭ @s5v5v
  🇸🇦 
 ]] 
 
@@ -4218,7 +4188,7 @@ elseif msg.content_.ID == "MessageVoice" then
 redis:sadd(boss..':KlmatRRandom:'..msg.chat_id_,klma) 
 redis:sadd(boss..':ReplayRandom:'..msg.chat_id_..":"..klma,":Voice:"..msg.content_.voice_.voice_.persistent_id_) 
 CaptionInsert(msg,msg.content_.voice_.voice_.persistent_id_,false)
-return sendMsg(msg.chat_id_,msg.id_,'🎤¦ تم ادراج البصمه للرد باقي '..CountRdod..' ✓\n🎤¦  ارسل رد اخر او ارسل {تم}')
+return sendMsg(msg.chat_id_,msg.id_,'??¦ تم ادراج البصمه للرد باقي '..CountRdod..' ✓\n🎤¦  ارسل رد اخر او ارسل {تم}')
 elseif msg.content_.ID == "MessageAnimation" then
 redis:sadd(boss..':KlmatRRandom:'..msg.chat_id_,klma) 
 redis:sadd(boss..':ReplayRandom:'..msg.chat_id_..":"..klma,":Animation:"..msg.content_.animation_.animation_.persistent_id_) 
@@ -5918,13 +5888,13 @@ if msg.text and redis:get(boss.."lock_rdodSource"..msg.chat_id_) then
 --================================{{  Reply Bot  }} ===================================
 
 local su = {
-"نعم معك ["..Bot_Name.."]",
+"نعم معك سكر",
 "تفضل",
 "امرني"}
 local ss97 = {
 "امرني","تفضل",
-"نعم","سم","امرني معك ["..Bot_Name.."] ","نعم انا ["..Bot_Name.."]",
-"تأمر امر تفضل","نعم","تفضل معك ["..Bot_Name.."]",
+"نعم","سم","امرني معك سكر","معك سكر تفضل",
+"تأمر امر تفضل","نعم","تفضل معك سكر ",
 }
 local bs = {
 "مابوس 🌚💔",
@@ -5980,17 +5950,17 @@ https://telegram.org/deactivate
  🇸🇦
 ]] )
 --=====================================
-elseif Text== "البوت" or Text== "يابوت" or Text=="بوت" then
+elseif Text== "البوت" or Text== "السكر" or Text=="بوت" then
 if msg.SudoUser then  
-return sendMsg(msg.chat_id_,msg.id_,"["..Bot_Name.."]")
+return sendMsg(msg.chat_id_,msg.id_,"لبييه")
 elseif msg.Creator then 
-return sendMsg(msg.chat_id_,msg.id_,"["..Bot_Name.."]")
+return sendMsg(msg.chat_id_,msg.id_,"لبييه")
 elseif msg.Director then 
-return sendMsg(msg.chat_id_,msg.id_,"["..Bot_Name.."]")
+return sendMsg(msg.chat_id_,msg.id_,"لبييه")
 elseif msg.Admin then 
-return sendMsg(msg.chat_id_,msg.id_,"["..Bot_Name.."]")
+return sendMsg(msg.chat_id_,msg.id_,"لبييه")
 else 
-return sendMsg(msg.chat_id_,msg.id_,"["..Bot_Name.."]")
+return sendMsg(msg.chat_id_,msg.id_,"لبييه")
 end 
 end 
 
@@ -6397,6 +6367,7 @@ Boss = {
 "^(قفل الملفات)$",
 "^(قفل الاشعارات)$",
 "^(قفل الانلاين)$",
+"^(قفل الالعاب)$",
 "^(قفل الكيبورد)$",
 "^(قفل الروابط)$",
 "^(قفل التاك)$",
@@ -6431,6 +6402,7 @@ Boss = {
 "^(فتح الملفات)$",
 "^(فتح الاشعارات)$",
 "^(فتح الانلاين)$",
+"^(فتح الالعاب)$",
 "^(فتح الكيبورد)$",
 "^(فتح الروابط)$",
 "^(فتح التاك)$",
